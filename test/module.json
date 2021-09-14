@@ -1,0 +1,20 @@
+{
+  "name": "hidden-entity-links",
+  "title": "Hidden Entity Links",
+  "description": "Hides entities with limited permission from the sidebar, but links still work for players.",
+  "author": "Erceron",
+  "version": "1.0.0",
+  "minimumCoreVersion": "0.8.9",
+  "compatibleCoreVersion":"0.8.9",
+  "esmodules": [
+      "./hidden-entity-links.js"
+    ],
+  "url": "https://github.com/earlSt1/vtt-hidden-entity-links",
+  "dependencies":[
+    {
+      "name": "lib-wrapper"
+    }
+  ],
+  "manifest": "https://raw.githubusercontent.com/earlSt1/vtt-hidden-entity-links/test/module.json",
+  "download": "https://github.com/earlSt1/vtt-hidden-entity-links/archive/master.zip"
+}
