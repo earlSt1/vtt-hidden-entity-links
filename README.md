@@ -4,7 +4,8 @@
 
 A module for FoundryVTT which hides entities in the sidebar if players have Limited access to them. This means you can provide secret documents to your players without them seeing them in the sidebar.
 
-![](./hidden_entity_links.gif)
+![hidden_links6](https://user-images.githubusercontent.com/13738280/133308770-a843e693-f297-488e-9c28-e26d55017c0d.gif)
+
 
 ## Instructions
 - In the module settings you will find options to hide each entity type (apart from Scenes and Macros) from your players if they have limited access.
