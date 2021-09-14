@@ -14,6 +14,7 @@ Any issues feel free to ping me on Discord (@Erceron#0370)
 
 ## Contribution
 If you'd like to support my work, feel free to buy me a coffee at [my kofi](https://ko-fi.com/erceron) 
+
 ---
 
 This project is licensed under the CC-BY-NC license. Visit https://creativecommons.org/licenses/by-nc/4.0/ for more information.
