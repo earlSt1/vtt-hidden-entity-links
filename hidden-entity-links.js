@@ -39,11 +39,76 @@ export class Settings {
   }
 }
 
+function directoryRenderedhiddenentityLinks(obj, html, data) {
+  if (!game.user.isGM) return;
+  const contextOptions = obj._getEntryContextOptions();
+
+  let collection = obj.constructor.collection;
+  let list =
+    html.find('li.directory-item.document')?.length > 0
+      ? html.find('li.directory-item.document')
+      : html.find('li.directory-item.entity');
+  for (let li of list) {
+    li = $(li);
+    let document = collection.get(li.attr('data-document-id'))
+      ? collection.get(li.attr('data-document-id'))
+      : collection.get(li.attr('data-entity-id'));
+    // let hiddens = [];
+
+    let isHidden = document.getFlag(mod, 'hidden');
+    if (isHidden) {
+      // let bg_color = 'transparent';
+      // bg_color = 'darkRed';
+      // let user_div = $('<div></div>');
+      // user_div.attr('data-hidden-entity-link', 'true');
+      // user_div.css({ 'background-color': bg_color });
+      // hiddens.push(user_div);
+      let div = $(
+        `<div class="hidden-entity-links" style="border-radius: 0;position: absolute;padding-left: 45px;background-color: transparent;">
+          <i class="fas fa-lightbulb" style="color:darkRed; text-shadow: 0 0 8px darkRed;"/>
+        </div>`,
+      );
+      // hiddens.push($('<div><i class="fas fa-lightbulb" style="color:darkRed; text-shadow: 0 0 8px darkRed;"/></div>'));
+      // let a = $(`<a href="#"></a>`);
+      // div.append(a);
+      // a.append(...hiddens);
+      // div.append(...hiddens);
+
+      // li.find('h4.entity-name').before(div);
+      li.find('h4.entity-name').after(div);
+      // if(li.find("div.permission-viewer")?.length > 0){
+      //   li.find("div.permission-viewer").before(div);
+      // }else{
+      //   li.find('h4.entity-name').after(div);
+      // }
+    }
+  }
+  // if (permissionOption)
+  //   html.find('.hidden-entity-links').click((event) => {
+  //     event.preventDefault();
+  //     event.stopPropagation();
+  //     let li = $(event.currentTarget).closest('li');
+  //     if (li) permissionOption.callback(li);
+  //   });
+}
+
+Hooks.once('ready', async function () {
+  // Hooks.on('renderJournalDirectory', directoryRenderedhiddenentityLinks);
+  // Hooks.on('renderSceneDirectory', directoryRenderedhiddenentityLinks);
+  Hooks.on('renderActorDirectory', directoryRenderedhiddenentityLinks);
+  // Hooks.on('renderItemDirectory', directoryRenderedhiddenentityLinks);
+  // Hooks.on('renderMacroDirectory', directoryRenderedhiddenentityLinks);
+  // Hooks.on('renderRollTableDirectory', directoryRenderedhiddenentityLinks);
+  // Hooks.on('renderCardsDirectory', directoryRenderedhiddenentityLinks);
+});
+
 Hooks.once('setup', async function () {
   Settings.registerSettings();
-  // ========
+
+  // =======================
   // Journal
-  // ========
+  // =======================
+
   if (game.settings.get(mod, 'hide-journals')) {
     libWrapper.register(
       mod,
@@ -57,22 +122,31 @@ Hooks.once('setup', async function () {
       'MIXED',
     );
   }
-  // ========
+
+  // =======================
   // Items
-  // ========
+  // =======================
+
   if (game.settings.get(mod, 'hide-items')) {
     libWrapper.register(
       mod,
       'Item.prototype.visible',
       function (wrapped, ...args) {
-        return this.testUserPermission(game.user, 'OBSERVER');
+        if (game.user.isGM) {
+          return true;
+        }
+        if (!this.getFlag(mod, 'hidden')) {
+          return this.testUserPermission(game.user, 'OBSERVER');
+        }
       },
       'OVERRIDE',
     );
   }
-  // ========
+
+  // =======================
   // Actors
-  // ========
+  // =======================
+
   if (game.settings.get(mod, 'hide-actors')) {
     libWrapper.register(
       mod,
@@ -139,15 +213,22 @@ Hooks.once('setup', async function () {
       'MIXED',
     );
   }
-  // ========
+
+  // =======================
   // Rolltable
-  // ========
+  // =======================
+
   if (game.settings.get(mod, 'hide-rolltables')) {
     libWrapper.register(
       mod,
       'RollTable.prototype.visible',
       function (wrapped, ...args) {
-        return this.testUserPermission(game.user, 'OBSERVER');
+        if (game.user.isGM) {
+          return true;
+        }
+        if (!this.getFlag(mod, 'hidden')) {
+          return this.testUserPermission(game.user, 'OBSERVER');
+        }
       },
       'OVERRIDE',
     );

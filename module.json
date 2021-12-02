@@ -42,7 +42,7 @@
   "scripts": [],
   "system": [],
   "esmodules": ["hidden-entity-links.js"],
-  "styles": [],
+  "styles": ["hidden-entity-links.css"],
   "packs": [],
   "url": "https://github.com/earlSt1/hidden-entity-links",
   "manifest": "https://github.com/earlSt1/hidden-entity-links/releases/latest/download/module.json",
