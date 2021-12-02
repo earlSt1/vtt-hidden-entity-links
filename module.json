@@ -1,20 +1,63 @@
+
 {
-    "name": "hidden-entity-links",
-    "title": "Hidden Entity Links",
-    "description": "Hides entities with limited permission from the sidebar, but links still work for players.",
-    "author": "Erceron",
-    "version": "1.0.0",
-    "minimumCoreVersion": "0.8.9",
-    "compatibleCoreVersion":"0.8.9",
-    "esmodules": [
-        "./hidden-entity-links.js"
-      ],
-    "dependencies":[
-      {
-        "name":"lib-wrapper"
-      }
-    ],
-    "url": "https://github.com/earlSt1/vtt-hidden-entity-links",
-    "manifest": "https://raw.githubusercontent.com/earlSt1/vtt-hidden-entity-links/master/module.json",
-    "download": "https://github.com/earlSt1/vtt-hidden-entity-links/releases/download/1.0.0/1.0.0.zip"
-  }
+  "name": "hidden-entity-links",
+  "title": "Hidden Entity Links",
+  "description": "Hides entities with limited permission from the sidebar, but links still work for players.",
+  "version": "1.0.1",
+  "author": "Erceron, p4535992",
+  "type": "module",
+  "socket": true,
+  "includes": [
+    "./assets/**",
+    "./lang/**",
+    "./scripts/**",
+    "./styles/**",
+    "./templates/**",
+    "./module.json",
+    "./README.md",
+    "./icons/**",
+    "./images/**",
+    "./packs/**"
+  ],
+  "media": [
+    {
+      "type": "icon",
+      "location": ""
+    },
+    {
+      "type": "cover",
+      "location": ""
+    },
+    {
+      "type": "screenshot",
+      "location": ""
+    }
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "scripts": [],
+  "system": [],
+  "esmodules": ["hidden-entity-links.js"],
+  "styles": [],
+  "packs": [],
+  "url": "https://github.com/earlSt1/hidden-entity-links",
+  "manifest": "https://github.com/earlSt1/hidden-entity-links/releases/latest/download/module.json",
+  "download": "https://github.com/earlSt1/hidden-entity-links/releases/download/v0.8.20/module.zip",
+  "readme": "https://github.com/earlSt1/hidden-entity-links/blob/v0.8.20/README.md",
+  "changelog": "https://github.com/earlSt1/hidden-entity-links/blob/v0.8.20/changelog.md",
+  "bugs": "https://github.com/earlSt1/hidden-entity-links/issues",
+  "minimumCoreVersion": "0.8.3",
+  "compatibleCoreVersion": "0.8.9",
+  "allowBugReporter": true,
+  "manifestPlusVersion": "1.2.0",
+  "dependencies": [
+    {
+      "name":"lib-wrapper"
+    }
+  ]
+}
