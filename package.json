@@ -1,17 +1,17 @@
 {
   "private": true,
-  "name": "trigger-happy",
-  "title": "Trigger Happy",
-  "description": "Automate everything in your world by creating triggers for your players to spring traps or anything you can think of!",
-  "version": "0.8.20",
+  "name": "hidden-entity-links",
+  "title": "Hidden Entity Links",
+  "description": "Hides entities with limited permission from the sidebar, but links still work for players.",
+  "version": "1.0.1",
   "scripts": {
     "package": "gulp package",
     "build": "gulp clean && gulp build && gulp link",
     "build:watch": "gulp watch",
     "clean": "gulp clean && gulp link --clean",
     "lint": "eslint --ext .ts,.js,.vue .",
-    "lintfix": "eslint --fix --ext .ts,.js,.vue ./src",
-    "prettier-format": "prettier --config .prettierrc --write \"./src/**/*.(ts|js|json|scss|css)\""
+    "lintfix": "eslint --fix --ext .ts,.js,.vue ./",
+    "prettier-format": "prettier --config .prettierrc --write \"./**/*.(ts|js|json|scss|css)\""
   },
   "author": "",
   "license": "",

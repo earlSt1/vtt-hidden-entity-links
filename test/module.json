@@ -5,12 +5,10 @@
   "author": "Erceron",
   "version": "1.0.0",
   "minimumCoreVersion": "0.8.9",
-  "compatibleCoreVersion":"0.8.9",
-  "esmodules": [
-      "./hidden-entity-links.js"
-    ],
+  "compatibleCoreVersion": "0.8.9",
+  "esmodules": ["./hidden-entity-links.js"],
   "url": "https://github.com/earlSt1/vtt-hidden-entity-links",
-  "dependencies":[
+  "dependencies": [
     {
       "name": "lib-wrapper"
     }

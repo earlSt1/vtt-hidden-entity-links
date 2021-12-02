@@ -1,4 +1,3 @@
-
 {
   "name": "hidden-entity-links",
   "title": "Hidden Entity Links",
@@ -57,7 +56,7 @@
   "manifestPlusVersion": "1.2.0",
   "dependencies": [
     {
-      "name":"lib-wrapper"
+      "name": "lib-wrapper"
     }
   ]
 }

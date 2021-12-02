@@ -1,0 +1,12 @@
+{
+  "hidden-entity-links.settings.hide-actors.name": "Hide Actors",
+  "hidden-entity-links.settings.hide-actors.hint": "If enabled, users with limited access to actors will not see them in the sidebar",
+  "hidden-entity-links.settings.hide-items.name": "Hide Items",
+  "hidden-entity-links.settings.hide-items.hint": "If enabled, users with limited access to items will not see them in the sidebar",
+  "hidden-entity-links.settings.hide-journals.name": "Hide Journal Entries",
+  "hidden-entity-links.settings.hide-journals.hint": "If enabled, users with limited access to journals will not see them in the sidebar",
+  "hidden-entity-links.settings.hide-rolltables.name": "Hide Roll Tables",
+  "hidden-entity-links.settings.hide-rolltables.hint": "If enabled, users with limited access to rolltables will not see them in the sidebar",
+  "hidden-entity-links.label.hide-actor": "Hide Actor Link",
+  "hidden-entity-links.label.show-actor": "Show Actor Link"
+}
