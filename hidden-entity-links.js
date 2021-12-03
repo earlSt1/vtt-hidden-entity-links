@@ -54,44 +54,70 @@ export class Settings {
   }
 }
 
-async function directoryRenderedHiddenFolderEntityLinks(obj, html, data) {
+async function updateHiddenEntityLinks(entityData, html, data){
   if (!game.user.isGM){
     return;
   }
-
-  // ============================================
-  //  For each folder
-  // ============================================
-
-  const contextFolderOptions = obj._getFolderContextOptions();
-  let collectionFolder = obj.constructor.collection;
-  let listFolder = html.find('li.directory-list');
-  for (let liFolder of listFolder) {
-    liFolder = $(liFolder);
-    let folder = collectionFolder.get(li.attr('data-folder-id'));
-    let isHidden = folder.getFlag(mod, 'hidden');
-    if (isHidden) {
-      let div = $(
-        `<div class="hidden-entity-links" style="border-radius: 0;position: absolute;padding-left: 45px;background-color: transparent;">
-          <i class="fas fa-lightbulb" style="color:darkRed; text-shadow: 0 0 8px darkRed;"/>
-        </div>`,
-      );
-      li.find('h4.entity-name').after(div);
+  let list =
+    html.find('li.directory-item.document')?.length > 0
+      ? html.find('li.directory-item.document')
+      : html.find('li.directory-item.entity');
+  for (let li of list) {
+    li = $(li);
+    if(entityData.id == li.attr('data-document-id') || entityData.id == li.attr('data-entity-id')){
+      let isHidden = data.flags["hidden-entity-links"].hidden;
+      if (isHidden && li.find('.hidden-entity-links').length <= 0) {
+        let div = $(
+          `<div class="hidden-entity-links" style="position:absolute;padding-left:45px;">
+            <i class="fas fa-lightbulb" style="color:darkRed; text-shadow: 0 0 8px darkRed;"/>
+          </div>`,
+        );
+        li.find('h4').before(div);
+      }else{
+        li.find('.hidden-entity-links').remove();
+      }
     }
   }
 }
 
+// /**
+//  * For each folder
+// */
+// async function directoryRenderedHiddenFolderEntityLinks(obj, html, data) {
+//   if (!game.user.isGM){
+//     return;
+//   }
+//   let collectionFolder = obj.folders;
+//   let listFolder = html.find('li.directory-item.folder')
+//   for (let liFolder of listFolder) {
+//     liFolder = $(liFolder);
+//     let folder = collectionFolder.find((f) => {
+//       return f.id == liFolder.attr('data-folder-id');
+//     });
+//     if(folder){
+//       let isHidden = folder.getFlag(mod, 'hidden');
+//       if (isHidden && liFolder.find('.hidden-entity-links').length <= 0) {
+//         let div = $(
+//           `<div class="hidden-entity-links" style="position:absolute;padding-left:20px;">
+//             <i class="fas fa-lightbulb" style="color:darkRed; text-shadow: 0 0 8px darkRed;"/>
+//           </div>`,
+//         );
+//         liFolder.find('h3').before(div);
+//       }
+//     }
+//   }
+// }
+
+/**
+ * For each entity/document of the actor
+*/
 async function directoryRenderedHiddenEntityLinks(obj, html, data) {
   if (!game.user.isGM){
     return;
   }
-
-  // ============================================
-  //  For each entity/document of the actor
-  // ============================================
-
-  const contextOptions = obj._getEntryContextOptions();
-  let collection = obj.constructor.collection;
+  // const contextOptions = obj._getEntryContextOptions();
+  // let collection = obj.constructor.collection;
+  let collection = game.actors.directory.documents;
 
   let list =
     html.find('li.directory-item.document')?.length > 0
@@ -99,49 +125,28 @@ async function directoryRenderedHiddenEntityLinks(obj, html, data) {
       : html.find('li.directory-item.entity');
   for (let li of list) {
     li = $(li);
-    let document = collection.get(li.attr('data-document-id'))
-      ? collection.get(li.attr('data-document-id'))
-      : collection.get(li.attr('data-entity-id'));
-    // let hiddens = [];
+    // let document = collection.get(li.attr('data-document-id'))
+    //   ? collection.get(li.attr('data-document-id'))
+    //   : collection.get(li.attr('data-entity-id'));
+    let document = collection.find((d) => {
+      return d.id == li.attr('data-document-id') || d.id == li.attr('data-entity-id');
+    });
 
-    let isHidden = document.getFlag(mod, 'hidden');
-    if (isHidden) {
-      // let bg_color = 'transparent';
-      // bg_color = 'darkRed';
-      // let user_div = $('<div></div>');
-      // user_div.attr('data-hidden-entity-link', 'true');
-      // user_div.css({ 'background-color': bg_color });
-      // hiddens.push(user_div);
-      let div = $(
-        `<div class="hidden-entity-links" style="border-radius: 0;position: absolute;padding-left: 45px;background-color: transparent;">
-          <i class="fas fa-lightbulb" style="color:darkRed; text-shadow: 0 0 8px darkRed;"/>
-        </div>`,
-      );
-      // hiddens.push($('<div><i class="fas fa-lightbulb" style="color:darkRed; text-shadow: 0 0 8px darkRed;"/></div>'));
-      // let a = $(`<a href="#"></a>`);
-      // div.append(a);
-      // a.append(...hiddens);
-      // div.append(...hiddens);
-
-      // li.find('h4.entity-name').before(div);
-      li.find('h4.entity-name').after(div);
-      // if(li.find("div.permission-viewer")?.length > 0){
-      //   li.find("div.permission-viewer").before(div);
-      // }else{
-      //   li.find('h4.entity-name').after(div);
-      // }
+    if(document){
+      // let isHidden = data._id == document.id && data.flags["hidden-entity-links"]?.hidden 
+      //   ? data.flags["hidden-entity-links"]?.hidden
+      //   : document.getFlag(mod, 'hidden');
+      let isHidden = document.getFlag(mod, 'hidden');
+      if (isHidden && li.find('.hidden-entity-links').length <= 0) {
+        let div = $(
+          `<div class="hidden-entity-links" style="position:absolute;padding-left:45px;">
+            <i class="fas fa-lightbulb" style="color:darkRed; text-shadow: 0 0 8px darkRed;"/>
+          </div>`,
+        );
+        li.find('h4').before(div);
+      }
     }
   }
-
-  // html.find('.hidden-entity-links').click((event) => {
-  //   event.preventDefault();
-  //   event.stopPropagation();
-  //   let li = $(event.currentTarget).closest('li');
-  //   if (li){
-  //     // DO something
-  //     permissionOption.callback(li);
-  //   }
-  // });
 }
 
 Hooks.once('ready', async function () {
@@ -149,31 +154,40 @@ Hooks.once('ready', async function () {
   // Hooks.on('renderSceneDirectory', directoryRenderedHiddenEntityLinks);
   Hooks.on('renderActorDirectory', (obj, html, data) => {
     directoryRenderedHiddenEntityLinks(obj, html, data);
-    directoryRenderedHiddenEntityFolderLinks(obj, $('.sidebar-tab'), data);
+    // directoryRenderedHiddenFolderEntityLinks(obj, html, data);
   });
   // Hooks.on('renderItemDirectory', directoryRenderedHiddenEntityLinks);
   // Hooks.on('renderMacroDirectory', directoryRenderedHiddenEntityLinks);
   // Hooks.on('renderRollTableDirectory', directoryRenderedHiddenEntityLinks);
   // Hooks.on('renderCardsDirectory', directoryRenderedHiddenEntityLinks);
 
-  // Seem i need this anyway
   Hooks.on('updateActor', (entityData, data) => {
-    const objEntity = ActorDirectory.prototype._getEntryContextOptions;
-    directoryRenderedHiddenEntityLinks(objEntity, $('.sidebar-tab'), data);
-    const objEntityFolder = ActorDirectory.prototype._getFolderContextOptions;
-    directoryRenderedHiddenEntityFolderLinks(objEntityFolder, $('.sidebar-tab'), data);
-    // $('.sidebar-tab').each(function() {
-    //   const html = $(this).find('.directory-list');
-    //   directoryRenderedHiddenEntityLinks(obj, html, data);
-    // });
-    // $('.sidebar-tab').each(function() {
-    //   const html = $(this).find('.directory-list');
-    //   directoryRenderedHiddenEntityFolderLinks(obj, html, data);
-    // });
+    let html = $('#actors.sidebar-tab');
+    updateHiddenEntityLinks(entityData, html, data);
   });
 
   // Hooks.on('updateFolder', (entityData, data) => {
-
+  //   let html = $('.sidebar-tab');
+  //   if (!game.user.isGM){
+  //     return;
+  //   }
+  //   let listFolder = html.find('li.directory-item.folder')
+  //   for (let liFolder of listFolder) {
+  //     liFolder = $(liFolder);
+  //     if(entityData.id == liFolder.attr('data-folder-id')){
+  //       let isHidden = data.flags["hidden-entity-links"].hidden;
+  //       if (isHidden && liFolder.find('.hidden-entity-links').length <= 0) {
+  //         let div = $(
+  //           `<div class="hidden-entity-links" style="position:absolute;padding-left:45px;">
+  //             <i class="fas fa-lightbulb" style="color:darkRed; text-shadow: 0 0 8px darkRed;"/>
+  //           </div>`,
+  //         );
+  //         liFolder.find('h4').before(div);
+  //       }else{
+  //         liFolder.find('.hidden-entity-links').remove();
+  //       }
+  //     }
+  //   }
   // });
 });
 
@@ -261,11 +275,11 @@ Hooks.once('setup', async function () {
                 return false;
               }
             },
-            callback: (li) => {
+            callback: async (li) => {
               const actor = game.actors.get(li.data('entityId'))
                 ? game.actors.get(li.data('entityId'))
                 : game.actors.get(li.data('documentId'));
-              actor.setFlag(mod, 'hidden', true);
+              await actor.setFlag(mod, 'hidden', true);
             },
           },
           {
@@ -281,11 +295,11 @@ Hooks.once('setup', async function () {
                 return false;
               }
             },
-            callback: (li) => {
+            callback: async (li) => {
               const actor = game.actors.get(li.data('entityId'))
                 ? game.actors.get(li.data('entityId'))
                 : game.actors.get(li.data('documentId'));
-              actor.setFlag(mod, 'hidden', false);
+              await actor.setFlag(mod, 'hidden', false);
             },
           },
         ].concat(options);
@@ -308,16 +322,16 @@ Hooks.once('setup', async function () {
               return false;
             }
           },
-          callback: (header) => {
+          callback: async (header) => {
             const folderId = header.parent().data('folderId');
             const folderObject = game.folders.get(folderId) || game.folders.getName(folderId);
             const updates = game.actors
               .filter((actor) => actor.data.folder === folderObject.id)
-              .map((actor) => {
-                actor.setFlag(mod, 'hidden', true);
+              .map(async (actor) => {
+                await actor.setFlag(mod, 'hidden', true);
               });
-            folderObject.setFlag(mod, 'hidden', true);
-            return Actor.update(updates);
+            await folderObject.setFlag(mod, 'hidden', true);
+            //return Actor.update(updates);
           },
         },
         {
@@ -326,22 +340,22 @@ Hooks.once('setup', async function () {
           condition: (header) => {
             const folderId = header.parent().data('folderId');
             const folderObject = game.folders.get(folderId) || game.folders.getName(folderId);
-            if (game.user.isGM && !folderObject.getFlag(mod, 'hidden')) {
+            if (game.user.isGM && folderObject.getFlag(mod, 'hidden')) {
               return true;
             } else {
               return false;
             }
           },
-          callback: (header) => {
+          callback: async (header) => {
             const folderId = header.parent().data('folderId');
             const folderObject = game.folders.get(folderId) || game.folders.getName(folderId);
             const updates = game.actors
               .filter((actor) => actor.data.folder === folderObject.id)
-              .map((actor) => {
-                actor.setFlag(mod, 'hidden', false);
+              .map(async (actor) => {
+                await actor.setFlag(mod, 'hidden', false);
               });
-            folderObject.setFlag(mod, 'hidden', false);
-            return Actor.update(updates);
+            await folderObject.setFlag(mod, 'hidden', false);
+            //return Actor.update(updates);
           },
         },
       ].concat(options);
