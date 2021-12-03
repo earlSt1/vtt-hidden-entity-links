@@ -50,8 +50,8 @@
   "readme": "https://github.com/earlSt1/hidden-entity-links/blob/v0.8.20/README.md",
   "changelog": "https://github.com/earlSt1/hidden-entity-links/blob/v0.8.20/changelog.md",
   "bugs": "https://github.com/earlSt1/hidden-entity-links/issues",
-  "minimumCoreVersion": "0.8.3",
-  "compatibleCoreVersion": "0.8.9",
+  "minimumCoreVersion": "0.8.9",
+  "compatibleCoreVersion": "9",
   "allowBugReporter": true,
   "manifestPlusVersion": "1.2.0",
   "dependencies": [

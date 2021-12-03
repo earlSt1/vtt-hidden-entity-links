@@ -7,6 +7,14 @@
   "hidden-entity-links.settings.hide-journals.hint": "If enabled, users with limited access to journals will not see them in the sidebar",
   "hidden-entity-links.settings.hide-rolltables.name": "Hide Roll Tables",
   "hidden-entity-links.settings.hide-rolltables.hint": "If enabled, users with limited access to rolltables will not see them in the sidebar",
-  "hidden-entity-links.label.hide-actor": "Hide Actor Link",
-  "hidden-entity-links.label.show-actor": "Show Actor Link"
+  "hidden-entity-links.settings.hide-scenes.name": "Hide Scenes",
+  "hidden-entity-links.settings.hide-scenes.hint": "If enabled, users with limited access to scenes will not see them in the sidebar",
+  "hidden-entity-links.settings.hide-scenes-nav.name": "Hide Scenes on navigation bar",
+  "hidden-entity-links.settings.hide-scenes-nav.hint": "If enabled, and the setting 'Hide Scenes' is enabled too, users with limited access to scenes will not see them in the navigation bar",
+  "hidden-entity-links.settings.hide-cards.name": "Hide Scenes",
+  "hidden-entity-links.settings.hide-cards.hint": "If enabled, users with limited access to scenes will not see them in the sidebar",
+  "hidden-entity-links.label.hide-entity": "Hide entity",
+  "hidden-entity-links.label.show-entity": "Show entity",
+  "hidden-entity-links.label.hide-folder": "Hide all entities on this folder",
+  "hidden-entity-links.label.show-folder": "Show all entities on this folder"
 }

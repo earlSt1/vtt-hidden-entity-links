@@ -1,5 +1,4 @@
-// 'use strict';
-// import { libWrapper } from './shim.js';
+
 const mod = 'hidden-entity-links';
 
 export class Settings {
@@ -36,14 +35,64 @@ export class Settings {
       type: Boolean,
       default: false,
     });
+    game.settings.register(mod, 'hide-scenes', {
+      name: `${mod}.settings.hide-scenes.name`,
+      hint: `${mod}.settings.hide-scenes.hint`,
+      scope: 'world',
+      config: true,
+      type: Boolean,
+      default: false,
+    });
+    game.settings.register(mod, 'hide-scenes-nav', {
+      name: `${mod}.settings.hide-scenes-nav.name`,
+      hint: `${mod}.settings.hide-scenes-nav.hint`,
+      scope: 'world',
+      config: true,
+      type: Boolean,
+      default: false,
+    });
   }
 }
 
-function directoryRenderedhiddenentityLinks(obj, html, data) {
-  if (!game.user.isGM) return;
-  const contextOptions = obj._getEntryContextOptions();
+async function directoryRenderedHiddenFolderEntityLinks(obj, html, data) {
+  if (!game.user.isGM){
+    return;
+  }
 
+  // ============================================
+  //  For each folder
+  // ============================================
+
+  const contextFolderOptions = obj._getFolderContextOptions();
+  let collectionFolder = obj.constructor.collection;
+  let listFolder = html.find('li.directory-list');
+  for (let liFolder of listFolder) {
+    liFolder = $(liFolder);
+    let folder = collectionFolder.get(li.attr('data-folder-id'));
+    let isHidden = folder.getFlag(mod, 'hidden');
+    if (isHidden) {
+      let div = $(
+        `<div class="hidden-entity-links" style="border-radius: 0;position: absolute;padding-left: 45px;background-color: transparent;">
+          <i class="fas fa-lightbulb" style="color:darkRed; text-shadow: 0 0 8px darkRed;"/>
+        </div>`,
+      );
+      li.find('h4.entity-name').after(div);
+    }
+  }
+}
+
+async function directoryRenderedHiddenEntityLinks(obj, html, data) {
+  if (!game.user.isGM){
+    return;
+  }
+
+  // ============================================
+  //  For each entity/document of the actor
+  // ============================================
+
+  const contextOptions = obj._getEntryContextOptions();
   let collection = obj.constructor.collection;
+
   let list =
     html.find('li.directory-item.document')?.length > 0
       ? html.find('li.directory-item.document')
@@ -83,23 +132,49 @@ function directoryRenderedhiddenentityLinks(obj, html, data) {
       // }
     }
   }
-  // if (permissionOption)
-  //   html.find('.hidden-entity-links').click((event) => {
-  //     event.preventDefault();
-  //     event.stopPropagation();
-  //     let li = $(event.currentTarget).closest('li');
-  //     if (li) permissionOption.callback(li);
-  //   });
+
+  // html.find('.hidden-entity-links').click((event) => {
+  //   event.preventDefault();
+  //   event.stopPropagation();
+  //   let li = $(event.currentTarget).closest('li');
+  //   if (li){
+  //     // DO something
+  //     permissionOption.callback(li);
+  //   }
+  // });
 }
 
 Hooks.once('ready', async function () {
-  // Hooks.on('renderJournalDirectory', directoryRenderedhiddenentityLinks);
-  // Hooks.on('renderSceneDirectory', directoryRenderedhiddenentityLinks);
-  Hooks.on('renderActorDirectory', directoryRenderedhiddenentityLinks);
-  // Hooks.on('renderItemDirectory', directoryRenderedhiddenentityLinks);
-  // Hooks.on('renderMacroDirectory', directoryRenderedhiddenentityLinks);
-  // Hooks.on('renderRollTableDirectory', directoryRenderedhiddenentityLinks);
-  // Hooks.on('renderCardsDirectory', directoryRenderedhiddenentityLinks);
+  // Hooks.on('renderJournalDirectory', directoryRenderedHiddenEntityLinks);
+  // Hooks.on('renderSceneDirectory', directoryRenderedHiddenEntityLinks);
+  Hooks.on('renderActorDirectory', (obj, html, data) => {
+    directoryRenderedHiddenEntityLinks(obj, html, data);
+    directoryRenderedHiddenEntityFolderLinks(obj, $('.sidebar-tab'), data);
+  });
+  // Hooks.on('renderItemDirectory', directoryRenderedHiddenEntityLinks);
+  // Hooks.on('renderMacroDirectory', directoryRenderedHiddenEntityLinks);
+  // Hooks.on('renderRollTableDirectory', directoryRenderedHiddenEntityLinks);
+  // Hooks.on('renderCardsDirectory', directoryRenderedHiddenEntityLinks);
+
+  // Seem i need this anyway
+  Hooks.on('updateActor', (entityData, data) => {
+    const objEntity = ActorDirectory.prototype._getEntryContextOptions;
+    directoryRenderedHiddenEntityLinks(objEntity, $('.sidebar-tab'), data);
+    const objEntityFolder = ActorDirectory.prototype._getFolderContextOptions;
+    directoryRenderedHiddenEntityFolderLinks(objEntityFolder, $('.sidebar-tab'), data);
+    // $('.sidebar-tab').each(function() {
+    //   const html = $(this).find('.directory-list');
+    //   directoryRenderedHiddenEntityLinks(obj, html, data);
+    // });
+    // $('.sidebar-tab').each(function() {
+    //   const html = $(this).find('.directory-list');
+    //   directoryRenderedHiddenEntityFolderLinks(obj, html, data);
+    // });
+  });
+
+  // Hooks.on('updateFolder', (entityData, data) => {
+
+  // });
 });
 
 Hooks.once('setup', async function () {
@@ -114,8 +189,13 @@ Hooks.once('setup', async function () {
       mod,
       'JournalSheet.prototype._inferDefaultMode',
       function (wrapped, ...args) {
-        if (this.object.limited && this.object.data.content) {
-          return 'text';
+        if (game.user.isGM) {
+          return wrapped(...args);
+        }
+        if (!this.getFlag(mod, 'hidden')) {
+          if (this.object.limited && this.object.data.content) {
+            return 'text';
+          }
         }
         return wrapped(...args);
       },
@@ -169,7 +249,7 @@ Hooks.once('setup', async function () {
         const options = SidebarDirectory.prototype._getEntryContextOptions.call(this);
         return [
           {
-            name: game.i18n.localize(`${mod}.label.hide-actor`),
+            name: game.i18n.localize(`${mod}.label.hide-entity`),
             icon: '<i class="far fa-lightbulb"></i>',
             condition: (li) => {
               const actor = game.actors.get(li.data('entityId'))
@@ -189,7 +269,7 @@ Hooks.once('setup', async function () {
             },
           },
           {
-            name: game.i18n.localize(`${mod}.label.show-actor`),
+            name: game.i18n.localize(`${mod}.label.show-entity`),
             icon: '<i class="fas fa-lightbulb"></i>',
             condition: (li) => {
               const actor = game.actors.get(li.data('entityId'))
@@ -212,6 +292,60 @@ Hooks.once('setup', async function () {
       },
       'MIXED',
     );
+
+    libWrapper.register(mod, 'ActorDirectory.prototype._getFolderContextOptions', function (wrapped, ...args) {
+      const options = SidebarDirectory.prototype._getFolderContextOptions.call(this);
+      return [
+        {
+          name: game.i18n.localize(`${mod}.label.hide-folder`),
+          icon: '<i class="far fa-lightbulb"></i>',
+          condition: (header) => {
+            const folderId = header.parent().data('folderId');
+            const folderObject = game.folders.get(folderId) || game.folders.getName(folderId);
+            if (game.user.isGM && !folderObject.getFlag(mod, 'hidden')) {
+              return true;
+            } else {
+              return false;
+            }
+          },
+          callback: (header) => {
+            const folderId = header.parent().data('folderId');
+            const folderObject = game.folders.get(folderId) || game.folders.getName(folderId);
+            const updates = game.actors
+              .filter((actor) => actor.data.folder === folderObject.id)
+              .map((actor) => {
+                actor.setFlag(mod, 'hidden', true);
+              });
+            folderObject.setFlag(mod, 'hidden', true);
+            return Actor.update(updates);
+          },
+        },
+        {
+          name: game.i18n.localize(`${mod}.label.show-folder`),
+          icon: '<i class="fas fa-lightbulb"></i>',
+          condition: (header) => {
+            const folderId = header.parent().data('folderId');
+            const folderObject = game.folders.get(folderId) || game.folders.getName(folderId);
+            if (game.user.isGM && !folderObject.getFlag(mod, 'hidden')) {
+              return true;
+            } else {
+              return false;
+            }
+          },
+          callback: (header) => {
+            const folderId = header.parent().data('folderId');
+            const folderObject = game.folders.get(folderId) || game.folders.getName(folderId);
+            const updates = game.actors
+              .filter((actor) => actor.data.folder === folderObject.id)
+              .map((actor) => {
+                actor.setFlag(mod, 'hidden', false);
+              });
+            folderObject.setFlag(mod, 'hidden', false);
+            return Actor.update(updates);
+          },
+        },
+      ].concat(options);
+    });
   }
 
   // =======================
@@ -243,4 +377,8 @@ Hooks.once('setup', async function () {
       'WRAPPER',
     );
   }
+
+  // =======================
+  // Scene
+  // =======================
 });
