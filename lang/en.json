@@ -13,6 +13,8 @@
   "hidden-entity-links.settings.hide-scenes-nav.hint": "If enabled, and the setting 'Hide Scenes' is enabled too, users with limited access to scenes will not see them in the navigation bar",
   "hidden-entity-links.settings.hide-cards.name": "Hide Scenes",
   "hidden-entity-links.settings.hide-cards.hint": "If enabled, users with limited access to scenes will not see them in the sidebar",
+  "hidden-entity-links.settings.no-background-only-symbol.name": "Disable the background just add the symbol image",
+  "hidden-entity-links.settings.no-background-only-symbol.hint": "If enable the background of the entity is no more, just add the symbol image like in the default scene directory, can be useful for compatibility with others modules",
   "hidden-entity-links.label.hide-entity": "Hide entity",
   "hidden-entity-links.label.show-entity": "Show entity",
   "hidden-entity-links.label.hide-folder": "Hide all entities on this folder",

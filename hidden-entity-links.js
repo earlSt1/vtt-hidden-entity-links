@@ -100,10 +100,25 @@ async function updateHiddenEntityLinks(entityData, html, data) {
         //   </div>`,
         // );
         // li.find('.entity-name').before(div);
-        li.addClass("hidden-entity-links");
+        if (entityData instanceof Scene) {
+          // li.addClass('hidden-entity-links-scene');
+          let div = $(
+            `<div class="hidden-entity-links-scene">
+              <i class="fas fa-lightbulb"/>
+            </div>`,
+          );
+          //li.find('.entity-name').after(div);
+          li.append(div);
+        } else {
+          li.addClass('hidden-entity-links');
+        }
       } else {
         // li.find('.hidden-entity-links').remove();
-        li.removeClass("hidden-entity-links");
+        if (entityData instanceof Scene) {
+          li.find('.hidden-entity-links-scene').remove();
+        }else{
+          li.removeClass('hidden-entity-links');
+        }
       }
     }
   }
@@ -145,7 +160,19 @@ async function directoryRenderedHiddenEntityLinks(obj, html, data, entities) {
         //   </div>`,
         // );
         // li.find('.entity-name').before(div);
-        li.addClass("hidden-entity-links");
+        if (obj instanceof SceneDirectory) {
+          // li.addClass('hidden-entity-links-scene');
+          // li.addClass('hidden-entity-links-scene');
+          let div = $(
+            `<div class="hidden-entity-links-scene">
+              <i class="fas fa-lightbulb"/>
+            </div>`,
+          );
+          //li.find('.entity-name').after(div);
+          li.append(div);
+        } else {
+          li.addClass('hidden-entity-links');
+        }
       }
     }
   }
@@ -309,7 +336,8 @@ Hooks.once('setup', async function () {
           condition: (header) => {
             const folderId = header.parent().data('folderId');
             const folderObject = game.folders.get(folderId) || game.folders.getName(folderId);
-            if (game.user.isGM) { // && !folderObject.getFlag(mod, 'hidden')) {
+            if (game.user.isGM) {
+              // && !folderObject.getFlag(mod, 'hidden')) {
               return true;
             } else {
               return false;
@@ -333,7 +361,8 @@ Hooks.once('setup', async function () {
           condition: (header) => {
             const folderId = header.parent().data('folderId');
             const folderObject = game.folders.get(folderId) || game.folders.getName(folderId);
-            if (game.user.isGM) { // && folderObject.getFlag(mod, 'hidden')) {
+            if (game.user.isGM) {
+              // && folderObject.getFlag(mod, 'hidden')) {
               return true;
             } else {
               return false;
@@ -434,7 +463,8 @@ Hooks.once('setup', async function () {
           condition: (header) => {
             const folderId = header.parent().data('folderId');
             const folderObject = game.folders.get(folderId) || game.folders.getName(folderId);
-            if (game.user.isGM) { // && !folderObject.getFlag(mod, 'hidden')) {
+            if (game.user.isGM) {
+              // && !folderObject.getFlag(mod, 'hidden')) {
               return true;
             } else {
               return false;
@@ -458,7 +488,8 @@ Hooks.once('setup', async function () {
           condition: (header) => {
             const folderId = header.parent().data('folderId');
             const folderObject = game.folders.get(folderId) || game.folders.getName(folderId);
-            if (game.user.isGM) { // && folderObject.getFlag(mod, 'hidden')) {
+            if (game.user.isGM) {
+              // && folderObject.getFlag(mod, 'hidden')) {
               return true;
             } else {
               return false;
@@ -559,7 +590,8 @@ Hooks.once('setup', async function () {
           condition: (header) => {
             const folderId = header.parent().data('folderId');
             const folderObject = game.folders.get(folderId) || game.folders.getName(folderId);
-            if (game.user.isGM) { // && !folderObject.getFlag(mod, 'hidden')) {
+            if (game.user.isGM) {
+              // && !folderObject.getFlag(mod, 'hidden')) {
               return true;
             } else {
               return false;
@@ -583,7 +615,8 @@ Hooks.once('setup', async function () {
           condition: (header) => {
             const folderId = header.parent().data('folderId');
             const folderObject = game.folders.get(folderId) || game.folders.getName(folderId);
-            if (game.user.isGM) { // && folderObject.getFlag(mod, 'hidden')) {
+            if (game.user.isGM) {
+              // && folderObject.getFlag(mod, 'hidden')) {
               return true;
             } else {
               return false;
@@ -695,7 +728,8 @@ Hooks.once('setup', async function () {
           condition: (header) => {
             const folderId = header.parent().data('folderId');
             const folderObject = game.folders.get(folderId) || game.folders.getName(folderId);
-            if (game.user.isGM) { // && !folderObject.getFlag(mod, 'hidden')) {
+            if (game.user.isGM) {
+              // && !folderObject.getFlag(mod, 'hidden')) {
               return true;
             } else {
               return false;
@@ -719,7 +753,8 @@ Hooks.once('setup', async function () {
           condition: (header) => {
             const folderId = header.parent().data('folderId');
             const folderObject = game.folders.get(folderId) || game.folders.getName(folderId);
-            if (game.user.isGM) { // && folderObject.getFlag(mod, 'hidden')) {
+            if (game.user.isGM) {
+              // && folderObject.getFlag(mod, 'hidden')) {
               return true;
             } else {
               return false;
@@ -820,7 +855,8 @@ Hooks.once('setup', async function () {
           condition: (header) => {
             const folderId = header.parent().data('folderId');
             const folderObject = game.folders.get(folderId) || game.folders.getName(folderId);
-            if (game.user.isGM) { // && !folderObject.getFlag(mod, 'hidden')) {
+            if (game.user.isGM) {
+              // && !folderObject.getFlag(mod, 'hidden')) {
               return true;
             } else {
               return false;
@@ -844,7 +880,8 @@ Hooks.once('setup', async function () {
           condition: (header) => {
             const folderId = header.parent().data('folderId');
             const folderObject = game.folders.get(folderId) || game.folders.getName(folderId);
-            if (game.user.isGM) { // && folderObject.getFlag(mod, 'hidden')) {
+            if (game.user.isGM) {
+              // && folderObject.getFlag(mod, 'hidden')) {
               return true;
             } else {
               return false;

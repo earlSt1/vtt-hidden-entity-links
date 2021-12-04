@@ -1,20 +1,28 @@
 .hidden-entity-links {
-  /* background: repeating-linear-gradient(135deg, #2d2d2d, #2d2d2d 10px, #efd00e 10px, #efd00e 20px) !important; */
-  background: repeating-linear-gradient(135deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 10px, rgba(255,255,0, 0.2)	
-  10px, rgba(255,255,0, 0.2) 20px) !important; 
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.2),
+    rgba(0, 0, 0, 0.2) 10px,
+    rgba(255, 255, 0, 0.2) 10px,
+    rgba(255, 255, 0, 0.2) 20px
+  ) !important;
 }
 
-/*
-.hidden-entity-links > i {
-  border-radius: 0;
-  position: absolute;
-  padding-left: 45px;
-  background-color: transparent;
+.hidden-entity-links-scene {
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 1) 10px,
+    rgba(255, 255, 0, 1) 10px,
+    rgba(255, 255, 0, 1) 20px
+  ) !important;
+  max-width: max-content;
+  margin: auto 5px;
+  line-height: initial;
+  display: block ruby;
 }
 
-.hidden-entity-links .fa-lightbulb {
-  color: darkRed;
-  text-shadow: 0 0 8px darkRed;
+.hidden-entity-links-scene .fa-lightbulb {
+  color: transparent;
+  text-shadow: 0 0 8px transparent;
 }
-*/
-
