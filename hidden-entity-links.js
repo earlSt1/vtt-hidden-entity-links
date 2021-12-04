@@ -50,6 +50,14 @@ export class Settings {
       type: Boolean,
       default: false,
     });
+    game.settings.register(mod, 'no-background-only-symbol', {
+      name: `${mod}.settings.no-background-only-symbol.name`,
+      hint: `${mod}.settings.no-background-only-symbol.hint`,
+      scope: 'world',
+      config: true,
+      type: Boolean,
+      default: false,
+    });
   }
 }
 
@@ -92,7 +100,7 @@ async function updateHiddenEntityLinks(entityData, html, data) {
   for (let li of list) {
     li = $(li);
     if (entityData.id == li.attr('data-document-id') || entityData.id == li.attr('data-entity-id')) {
-      let isHidden = data.flags['hidden-entity-links'].hidden;
+      let isHidden = data.flags['hidden-entity-links']?.hidden; // why is undefined ??
       if (isHidden && li.find('.hidden-entity-links').length <= 0) {
         // let div = $(
         //   `<div class="hidden-entity-links" style="position:absolute;padding-left:45px;">
@@ -100,7 +108,7 @@ async function updateHiddenEntityLinks(entityData, html, data) {
         //   </div>`,
         // );
         // li.find('.entity-name').before(div);
-        if (entityData instanceof Scene) {
+        if (entityData instanceof Scene || game.settings.get(mod, 'no-background-only-symbol')) {
           // li.addClass('hidden-entity-links-scene');
           let div = $(
             `<div class="hidden-entity-links-scene">
@@ -114,9 +122,9 @@ async function updateHiddenEntityLinks(entityData, html, data) {
         }
       } else {
         // li.find('.hidden-entity-links').remove();
-        if (entityData instanceof Scene) {
+        if (entityData instanceof Scene || game.settings.get(mod, 'no-background-only-symbol')) {
           li.find('.hidden-entity-links-scene').remove();
-        }else{
+        } else {
           li.removeClass('hidden-entity-links');
         }
       }
@@ -149,30 +157,40 @@ async function directoryRenderedHiddenEntityLinks(obj, html, data, entities) {
     });
 
     if (document) {
-      // let isHidden = data._id == document.id && data.flags["hidden-entity-links"]?.hidden
-      //   ? data.flags["hidden-entity-links"]?.hidden
-      //   : document.getFlag(mod, 'hidden');
-      let isHidden = document.getFlag(mod, 'hidden');
-      if (isHidden && li.find('.hidden-entity-links').length <= 0) {
-        // let div = $(
-        //   `<div class="hidden-entity-links" style="position:absolute;padding-left:45px;">
-        //     <i class="fas fa-lightbulb" style="color:darkRed; text-shadow: 0 0 8px darkRed;"/>
-        //   </div>`,
-        // );
-        // li.find('.entity-name').before(div);
-        if (obj instanceof SceneDirectory) {
-          // li.addClass('hidden-entity-links-scene');
-          // li.addClass('hidden-entity-links-scene');
-          let div = $(
-            `<div class="hidden-entity-links-scene">
-              <i class="fas fa-lightbulb"/>
-            </div>`,
-          );
-          //li.find('.entity-name').after(div);
-          li.append(div);
-        } else {
-          li.addClass('hidden-entity-links');
+      try {
+        // let isHidden = data._id == document.id && data.flags["hidden-entity-links"]?.hidden
+        //   ? data.flags["hidden-entity-links"]?.hidden
+        //   : document.getFlag(mod, 'hidden');
+        let isHidden = document.getFlag(mod, 'hidden');
+        if (isHidden && li.find('.hidden-entity-links').length <= 0) {
+          // let div = $(
+          //   `<div class="hidden-entity-links" style="position:absolute;padding-left:45px;">
+          //     <i class="fas fa-lightbulb" style="color:darkRed; text-shadow: 0 0 8px darkRed;"/>
+          //   </div>`,
+          // );
+          // li.find('.entity-name').before(div);
+          if (obj instanceof SceneDirectory || game.settings.get(mod, 'no-background-only-symbol')) {
+            // li.addClass('hidden-entity-links-scene');
+            // li.addClass('hidden-entity-links-scene');
+            let div = $(
+              `<div class="hidden-entity-links-scene">
+                <i class="fas fa-lightbulb"/>
+              </div>`,
+            );
+            //li.find('.entity-name').after(div);
+            li.append(div);
+          } else {
+            li.addClass('hidden-entity-links');
+          }
         }
+      } catch (e) {
+        // This is just a patch for a bug during the beta of the beta
+        // we can probably remove in the future
+        if (hasProperty(document.data, `flags.${mod}`)) {
+          await document.unsetFlag(mod, 'true');
+          await document.unsetFlag(mod, 'false');
+        }
+        throw e;
       }
     }
   }
@@ -200,30 +218,42 @@ Hooks.once('ready', async function () {
     directoryRenderedHiddenEntityLinks(obj, html, data, game.cards);
   });
 
-  Hooks.on('updateJournal', (entityData, data) => {
-    let html = $('#journal.sidebar-tab');
-    updateHiddenEntityLinks(entityData, html, data);
+  Hooks.on('updateJournalEntry', (entityData, data) => {
+    if (data.flags && data.flags['hidden-entity-links']) {
+      let html = $('#journal.sidebar-tab');
+      updateHiddenEntityLinks(entityData, html, data);
+    }
   });
   Hooks.on('updateScene', (entityData, data) => {
-    let html = $('#scenes.sidebar-tab');
-    updateHiddenEntityLinks(entityData, html, data);
+    if (data.flags && data.flags['hidden-entity-links']) {
+      let html = $('#scenes.sidebar-tab');
+      updateHiddenEntityLinks(entityData, html, data);
+    }
   });
   Hooks.on('updateActor', (entityData, data) => {
-    let html = $('#actors.sidebar-tab');
-    updateHiddenEntityLinks(entityData, html, data);
+    if (data.flags && data.flags['hidden-entity-links']) {
+      let html = $('#actors.sidebar-tab');
+      updateHiddenEntityLinks(entityData, html, data);
+    }
   });
   Hooks.on('updateItem', (entityData, data) => {
-    let html = $('#items.sidebar-tab');
-    updateHiddenEntityLinks(entityData, html, data);
+    if (data.flags && data.flags['hidden-entity-links']) {
+      let html = $('#items.sidebar-tab');
+      updateHiddenEntityLinks(entityData, html, data);
+    }
   });
   // Hooks.on('updateMacro', directoryRenderedHiddenEntityLinks);
   Hooks.on('updateRollTable', (entityData, data) => {
-    let html = $('#tables.sidebar-tab');
-    updateHiddenEntityLinks(entityData, html, data);
+    if (data.flags && data.flags['hidden-entity-links']) {
+      let html = $('#tables.sidebar-tab');
+      updateHiddenEntityLinks(entityData, html, data);
+    }
   });
   Hooks.on('updateCards', (entityData, data) => {
-    let html = $('#cards.sidebar-tab');
-    updateHiddenEntityLinks(entityData, html, data);
+    if (data.flags && data.flags['hidden-entity-links']) {
+      let html = $('#cards.sidebar-tab');
+      updateHiddenEntityLinks(entityData, html, data);
+    }
   });
 
   // Hooks.on('updateFolder', (entityData, data) => {
@@ -258,7 +288,39 @@ Hooks.once('setup', async function () {
   // Journal
   // =======================
 
+  libWrapper.register(
+    mod,
+    'JournalEntry.prototype.visible',
+    function (wrapped, ...args) {
+      if (game.user.isGM) {
+        return true;
+      }
+      if (!this.getFlag(mod, 'hidden')) {
+        return this.testUserPermission(game.user, 'OBSERVER');
+      }
+    },
+    'OVERRIDE',
+  );
+
   if (game.settings.get(mod, 'hide-journals')) {
+    // libWrapper.register(
+    //   mod,
+    //   'JournalSheet.prototype._onShowPlayers',
+    //   function (wrapped, ...args) {
+    //     // event.preventDefault();
+    //     // await this.submit();
+    //     if (game.user.isGM) {
+    //       return wrapped(...args);
+    //     }
+    //     if (this.object.getFlag(mod, 'hidden')) {
+    //       return;
+    //     }
+    //     // return this.object.show(this._sheetMode, true);
+    //     return wrapped(...args);
+    //   },
+    //   'MIXED',
+    // );
+
     libWrapper.register(
       mod,
       'JournalSheet.prototype._inferDefaultMode',
@@ -266,9 +328,13 @@ Hooks.once('setup', async function () {
         if (game.user.isGM) {
           return wrapped(...args);
         }
-        if (!this.getFlag(mod, 'hidden')) {
+        if (this.object.getFlag(mod, 'hidden')) {
           if (this.object.limited && this.object.data.content) {
             return 'text';
+          }
+          if (this.object.limited && this.object.data.img) {
+            // Removed limited we use a flag now
+            return 'image';
           }
         }
         return wrapped(...args);
@@ -819,6 +885,15 @@ Hooks.once('setup', async function () {
                 ? game.scenes.get(li.data('entityId'))
                 : game.scenes.get(li.data('documentId'));
               await scene.setFlag(mod, 'hidden', true);
+              if (game.settings.get(mod, 'hide-scenes-nav')) {
+                const updates = [
+                  {
+                    _id: scene.id,
+                    navigation: false,
+                  },
+                ];
+                return Scene.update(updates);
+              }
             },
           },
           {
@@ -839,6 +914,15 @@ Hooks.once('setup', async function () {
                 ? game.scenes.get(li.data('entityId'))
                 : game.scenes.get(li.data('documentId'));
               await scene.setFlag(mod, 'hidden', false);
+              if (game.settings.get(mod, 'hide-scenes-nav')) {
+                const updates = [
+                  {
+                    _id: scene.id,
+                    navigation: true,
+                  },
+                ];
+                return Scene.update(updates);
+              }
             },
           },
         ].concat(options);
@@ -871,7 +955,15 @@ Hooks.once('setup', async function () {
                 await scene.setFlag(mod, 'hidden', true);
               });
             //await folderObject.setFlag(mod, 'hidden', true);
-            //return Scene.update(updates);
+            if (game.settings.get(mod, 'hide-scenes-nav')) {
+              const updates = game.scenes
+                .filter((scene) => scene.data.folder === folderObject.id)
+                .map((scene) => ({
+                  _id: scene.id,
+                  navigation: !scene.getFlag(mod, 'hidden') && scene.navigation ? false : scene.navigation,
+                }));
+              return Scene.update(updates);
+            }
           },
         },
         {
@@ -896,7 +988,15 @@ Hooks.once('setup', async function () {
                 await scene.setFlag(mod, 'hidden', false);
               });
             //await folderObject.setFlag(mod, 'hidden', false);
-            //return Scene.update(updates);
+            if (game.settings.get(mod, 'hide-scenes-nav')) {
+              const updates = game.scenes
+                .filter((scene) => scene.data.folder === folderObject.id)
+                .map((scene) => ({
+                  _id: scene.id,
+                  navigation: scene.getFlag(mod, 'hidden') && !scene.navigation ? true : scene.navigation,
+                }));
+              return Scene.update(updates);
+            }
           },
         },
       ].concat(options);
