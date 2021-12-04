@@ -1,3 +1,9 @@
+.hidden-entity-links {
+  /* background: repeating-linear-gradient(135deg, #2d2d2d, #2d2d2d 10px, #efd00e 10px, #efd00e 20px) !important; */
+  background: repeating-linear-gradient(135deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 10px, rgba(255,255,0, 0.2)	
+  10px, rgba(255,255,0, 0.2) 20px) !important; 
+}
+
 /*
 .hidden-entity-links > i {
   border-radius: 0;
@@ -11,3 +17,4 @@
   text-shadow: 0 0 8px darkRed;
 }
 */
+
