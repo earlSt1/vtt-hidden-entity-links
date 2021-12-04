@@ -24,7 +24,7 @@ In the module settings you will find options to hide each entity type (apart fro
 
 The concept is hide everything on the sidebar, but still have permissions , a classic use is a merchant in apsecific scene cna be used only on that scene not on the sidebar.
 
-The graphic interaction with new choices on the sidebar context let you decide the entity/document you want to make secret with a simple right click on the specific element or the folder of the sidebar, so you can hide , unhide muliple elements with one click.
+The graphic interaction with new choices on the sidebar context let you decide the entity/document you want to make secret with a simple right click on the specific element or the folder of the sidebar, so you can hide , unhide multiple elements with one click.
 
 Any issues feel free to ping me on Discord (@Erceron#0370)
 
@@ -140,6 +140,6 @@ Any issues, bugs, or feature requests are always welcome to be reported directly
 
 ## License
 
-This Foundry VTT module, writen by KaKaRoTo, is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/) and the [Foundry Virtual Tabletop Limited License Agreement for module development](https://foundryvtt.com/article/license/).
+This Foundry VTT module is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/) and the [Foundry Virtual Tabletop Limited License Agreement for module development](https://foundryvtt.com/article/license/).
 
 This work is licensed under Foundry Virtual Tabletop [EULA - Limited License Agreement for module development v 0.1.6](http://foundryvtt.com/pages/license.html).
