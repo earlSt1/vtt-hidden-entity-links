@@ -20,6 +20,7 @@
   margin: auto 5px;
   line-height: initial;
   display: block ruby;
+  height: 100%;
 }
 
 .hidden-entity-links-scene .fa-lightbulb {

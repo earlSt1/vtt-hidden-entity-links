@@ -14,21 +14,30 @@
 
 ![GitHub all releases](https://img.shields.io/github/downloads/earlSt1/vtt-hidden-entity-links/total?style=for-the-badge) 
 
-
-
 A module for FoundryVTT which hides entities in the sidebar if players have Limited access to them. This means you can provide secret documents to your players without them seeing them in the sidebar.
 
 ![hidden_links6](./wiki/shocase_hidden_entity_link.gif)
 
-
 ## Instructions
-- In the module settings you will find options to hide each entity type (apart from Scenes and Macros) from your players if they have limited access.
+
+In the module settings you will find options to hide each entity type (apart from Macros) from your players if they have limited access.
+
+The concept is hide everything on the sidebar, but still have permissions , a classic use is a merchant in apsecific scene cna be used only on that scene not on the sidebar.
+
+The graphic interaction with new choices on the sidebar context let you decide the entity/document you want to make secret with a simple right click on the specific element or the folder of the sidebar, so you can hide , unhide muliple elements with one click.
 
 Any issues feel free to ping me on Discord (@Erceron#0370)
 
+Here some screenshots
+
+![img1](./wiki/scene_hide_1.png)![img2](./wiki/scene_hide_2.png)![img3](./wiki/scene_hide_3.png)![img4](./wiki/actor_hide_all.png)![img5](./wiki/actor_hide_1.png)![img6](./wiki/item_hide_1.png)![img7](./wiki/journalentry_hide_1.png)![img8](./wiki/rolltable_hide_1.png)
 
 ## Contribution
-If you'd like to support my work, feel free to buy me a coffee at [my kofi](https://ko-fi.com/erceron)
+
+If you'd like to support my work, feel free to buy me a coffee at my kofi
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/erceron)
+
 
 ## Installation
 

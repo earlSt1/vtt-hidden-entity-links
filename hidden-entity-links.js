@@ -101,7 +101,7 @@ async function updateHiddenEntityLinks(entityData, html, data) {
     li = $(li);
     if (entityData.id == li.attr('data-document-id') || entityData.id == li.attr('data-entity-id')) {
       let isHidden = data.flags['hidden-entity-links']?.hidden; // why is undefined ??
-      if (isHidden && li.find('.hidden-entity-links').length <= 0) {
+      if (isHidden) {
         // let div = $(
         //   `<div class="hidden-entity-links" style="position:absolute;padding-left:45px;">
         //     <i class="fas fa-lightbulb" style="color:darkRed; text-shadow: 0 0 8px darkRed;"/>
@@ -109,23 +109,30 @@ async function updateHiddenEntityLinks(entityData, html, data) {
         // );
         // li.find('.entity-name').before(div);
         if (entityData instanceof Scene || game.settings.get(mod, 'no-background-only-symbol')) {
-          // li.addClass('hidden-entity-links-scene');
-          let div = $(
-            `<div class="hidden-entity-links-scene">
-              <i class="fas fa-lightbulb"/>
-            </div>`,
-          );
-          //li.find('.entity-name').after(div);
-          li.append(div);
+          if (li.find('.hidden-entity-links-scene').length <= 0) {
+            let div = $(
+              `<div class="hidden-entity-links-scene">
+                <i class="fas fa-lightbulb"/>
+              </div>`,
+            );
+            //li.find('.entity-name').after(div);
+            li.append(div);
+          }
         } else {
-          li.addClass('hidden-entity-links');
+          if (li.find('.hidden-entity-links').length <= 0) {
+            li.addClass('hidden-entity-links');
+          }
         }
       } else {
         // li.find('.hidden-entity-links').remove();
         if (entityData instanceof Scene || game.settings.get(mod, 'no-background-only-symbol')) {
+          // if(li.find('.hidden-entity-links-scene').length > 0){
           li.find('.hidden-entity-links-scene').remove();
+          // }
         } else {
+          // if(li.find('.hidden-entity-links').length > 0){
           li.removeClass('hidden-entity-links');
+          // }
         }
       }
     }
@@ -162,7 +169,7 @@ async function directoryRenderedHiddenEntityLinks(obj, html, data, entities) {
         //   ? data.flags["hidden-entity-links"]?.hidden
         //   : document.getFlag(mod, 'hidden');
         let isHidden = document.getFlag(mod, 'hidden');
-        if (isHidden && li.find('.hidden-entity-links').length <= 0) {
+        if (isHidden) {
           // let div = $(
           //   `<div class="hidden-entity-links" style="position:absolute;padding-left:45px;">
           //     <i class="fas fa-lightbulb" style="color:darkRed; text-shadow: 0 0 8px darkRed;"/>
@@ -170,17 +177,19 @@ async function directoryRenderedHiddenEntityLinks(obj, html, data, entities) {
           // );
           // li.find('.entity-name').before(div);
           if (obj instanceof SceneDirectory || game.settings.get(mod, 'no-background-only-symbol')) {
-            // li.addClass('hidden-entity-links-scene');
-            // li.addClass('hidden-entity-links-scene');
-            let div = $(
-              `<div class="hidden-entity-links-scene">
-                <i class="fas fa-lightbulb"/>
-              </div>`,
-            );
-            //li.find('.entity-name').after(div);
-            li.append(div);
+            if (li.find('.hidden-entity-links-scene').length <= 0) {
+              let div = $(
+                `<div class="hidden-entity-links-scene">
+                  <i class="fas fa-lightbulb"/>
+                </div>`,
+              );
+              //li.find('.entity-name').after(div);
+              li.append(div);
+            }
           } else {
-            li.addClass('hidden-entity-links');
+            if (li.find('.hidden-entity-links').length <= 0) {
+              li.addClass('hidden-entity-links');
+            }
           }
         }
       } catch (e) {
@@ -197,26 +206,26 @@ async function directoryRenderedHiddenEntityLinks(obj, html, data, entities) {
 }
 
 Hooks.once('ready', async function () {
-  Hooks.on('renderJournalDirectory', (obj, html, data) => {
-    directoryRenderedHiddenEntityLinks(obj, html, data, game.journal);
-  });
-  Hooks.on('renderSceneDirectory', (obj, html, data) => {
-    directoryRenderedHiddenEntityLinks(obj, html, data, game.scenes);
-  });
-  Hooks.on('renderActorDirectory', (obj, html, data) => {
-    directoryRenderedHiddenEntityLinks(obj, html, data, game.actors);
-    // directoryRenderedHiddenFolderEntityLinks(obj, html, data);
-  });
-  Hooks.on('renderItemDirectory', (obj, html, data) => {
-    directoryRenderedHiddenEntityLinks(obj, html, data, game.items);
-  });
-  // Hooks.on('renderMacroDirectory', directoryRenderedHiddenEntityLinks);
-  Hooks.on('renderRollTableDirectory', (obj, html, data) => {
-    directoryRenderedHiddenEntityLinks(obj, html, data, game.tables);
-  });
-  Hooks.on('renderCardsDirectory', (obj, html, data) => {
-    directoryRenderedHiddenEntityLinks(obj, html, data, game.cards);
-  });
+  // Hooks.on('renderJournalDirectory', (obj, html, data) => {
+  //   directoryRenderedHiddenEntityLinks(obj, html, data, game.journal);
+  // });
+  // Hooks.on('renderSceneDirectory', (obj, html, data) => {
+  //   directoryRenderedHiddenEntityLinks(obj, html, data, game.scenes);
+  // });
+  // Hooks.on('renderActorDirectory', (obj, html, data) => {
+  //   directoryRenderedHiddenEntityLinks(obj, html, data, game.actors);
+  //   // directoryRenderedHiddenFolderEntityLinks(obj, html, data);
+  // });
+  // Hooks.on('renderItemDirectory', (obj, html, data) => {
+  //   directoryRenderedHiddenEntityLinks(obj, html, data, game.items);
+  // });
+  // // Hooks.on('renderMacroDirectory', directoryRenderedHiddenEntityLinks);
+  // Hooks.on('renderRollTableDirectory', (obj, html, data) => {
+  //   directoryRenderedHiddenEntityLinks(obj, html, data, game.tables);
+  // });
+  // Hooks.on('renderCardsDirectory', (obj, html, data) => {
+  //   directoryRenderedHiddenEntityLinks(obj, html, data, game.cards);
+  // });
 
   Hooks.on('updateJournalEntry', (entityData, data) => {
     if (data.flags && data.flags['hidden-entity-links']) {
@@ -283,6 +292,27 @@ Hooks.once('ready', async function () {
 
 Hooks.once('setup', async function () {
   Settings.registerSettings();
+
+  Hooks.on('renderJournalDirectory', (obj, html, data) => {
+    directoryRenderedHiddenEntityLinks(obj, html, data, game.journal);
+  });
+  Hooks.on('renderSceneDirectory', (obj, html, data) => {
+    directoryRenderedHiddenEntityLinks(obj, html, data, game.scenes);
+  });
+  Hooks.on('renderActorDirectory', (obj, html, data) => {
+    directoryRenderedHiddenEntityLinks(obj, html, data, game.actors);
+    // directoryRenderedHiddenFolderEntityLinks(obj, html, data);
+  });
+  Hooks.on('renderItemDirectory', (obj, html, data) => {
+    directoryRenderedHiddenEntityLinks(obj, html, data, game.items);
+  });
+  // Hooks.on('renderMacroDirectory', directoryRenderedHiddenEntityLinks);
+  Hooks.on('renderRollTableDirectory', (obj, html, data) => {
+    directoryRenderedHiddenEntityLinks(obj, html, data, game.tables);
+  });
+  Hooks.on('renderCardsDirectory', (obj, html, data) => {
+    directoryRenderedHiddenEntityLinks(obj, html, data, game.cards);
+  });
 
   // =======================
   // Journal
@@ -890,6 +920,9 @@ Hooks.once('setup', async function () {
                   {
                     _id: scene.id,
                     navigation: false,
+                    permission: {
+                      default: 0,
+                    },
                   },
                 ];
                 return Scene.update(updates);
@@ -961,6 +994,9 @@ Hooks.once('setup', async function () {
                 .map((scene) => ({
                   _id: scene.id,
                   navigation: !scene.getFlag(mod, 'hidden') && scene.navigation ? false : scene.navigation,
+                  permission: {
+                    default: !scene.getFlag(mod, 'hidden') && scene.navigation ? 0 : scene.permission.default,
+                  },
                 }));
               return Scene.update(updates);
             }
