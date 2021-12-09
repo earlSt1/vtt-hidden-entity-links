@@ -15,6 +15,8 @@
   "hidden-entity-links.settings.hide-cards.hint": "If enabled and you are not a GM, users with limited access to scenes will not see them in the sidebar",
   "hidden-entity-links.settings.no-background-only-symbol.name": "Disable the background just add the symbol image",
   "hidden-entity-links.settings.no-background-only-symbol.hint": "If enable the background of the entity is no more colored, will just add the symbol image like in the default scene directory, can be useful for compatibility with others modules",
+  "hidden-entity-links.settings.disguise-unreachable-links.name": "Disguise unreachable links for all non GM player",
+  "hidden-entity-links.settings.disguise-unreachable-links.hint": "When displaying journal entries or actors to players, if the linked document is not reachable then the special link presentation will be replaced by just the normal text. Thus players will not realise that there is another document to which they don't have access. By accessible, we mean that the player has at least LIMITED permission on that document",
   "hidden-entity-links.label.hide-entity": "Hide entity",
   "hidden-entity-links.label.show-entity": "Unhide entity",
   "hidden-entity-links.label.hide-folder": "Hide all entities on this folder",

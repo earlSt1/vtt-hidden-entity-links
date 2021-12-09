@@ -55,6 +55,10 @@ To install this module manually:
 
 This module uses the [libWrapper](https://github.com/ruipin/fvtt-lib-wrapper) library for wrapping core methods. It is a hard dependency and it is recommended for the best experience and compatibility with other modules.
 
+### socketLib
+
+This module uses the [socketLib](https://github.com/manuelVo/foundryvtt-socketlib) library for socket core methods. It is a hard dependency and it is recommended for the best experience and compatibility with other modules.
+
 ## Known issue
 
 # Build
@@ -140,6 +144,12 @@ Any issues, bugs, or feature requests are always welcome to be reported directly
 
 ## License
 
+- **[fvtt-disguise-unreachable-links](https://github.com/farling42/fvtt-disguise-unreachable-links)** : [MIT](https://github.com/farling42/fvtt-disguise-unreachable-links/blob/master/LICENSE)
+
 This Foundry VTT module is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/) and the [Foundry Virtual Tabletop Limited License Agreement for module development](https://foundryvtt.com/article/license/).
 
 This work is licensed under Foundry Virtual Tabletop [EULA - Limited License Agreement for module development v 0.1.6](http://foundryvtt.com/pages/license.html).
+
+## Credit
+
+- A little part of code is inspired from [farling42](https://github.com/farling42) and the module [fvtt-disguise-unreachable-links](https://github.com/farling42/fvtt-disguise-unreachable-links)
