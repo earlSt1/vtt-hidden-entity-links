@@ -55,7 +55,7 @@ To install this module manually:
 
 This module uses the [libWrapper](https://github.com/ruipin/fvtt-lib-wrapper) library for wrapping core methods. It is a hard dependency and it is recommended for the best experience and compatibility with other modules.
 
-### socketLib
+### socketLib [OPTIONAL] (need some more developing...)
 
 This module uses the [socketLib](https://github.com/manuelVo/foundryvtt-socketlib) library for socket core methods. It is a hard dependency and it is recommended for the best experience and compatibility with other modules.
 

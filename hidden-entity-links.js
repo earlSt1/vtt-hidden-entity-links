@@ -678,6 +678,7 @@ Hooks.once('setup', async function () {
           },
         ].concat(options);
       },
+      'MIXED',
     );
   }
 
@@ -809,6 +810,7 @@ Hooks.once('setup', async function () {
           },
         ].concat(options);
       },
+      'MIXED',
     );
   }
 
@@ -940,6 +942,7 @@ Hooks.once('setup', async function () {
           },
         ].concat(options);
       },
+      'MIXED',
     );
   }
 
@@ -1082,6 +1085,7 @@ Hooks.once('setup', async function () {
           },
         ].concat(options);
       },
+      'MIXED',
     );
   }
 
@@ -1262,6 +1266,7 @@ Hooks.once('setup', async function () {
           },
         ].concat(options);
       },
+      'MIXED',
     );
   }
 });
