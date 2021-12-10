@@ -121,7 +121,9 @@ class HiddentEntityLinks {
         let isHidden = data.flags['hidden-entity-links']?.hidden; // why is undefined ??
         if (isHidden) {
           if (!game.user.isGM) {
-            setProperty(entityData, 'visible', false);
+            //setProperty(entityData, 'visible', false);
+            // TODO why i must do this ?????
+            // li.hide();
           } else {
             // let div = $(
             //   `<div class="hidden-entity-links" style="position:absolute;padding-left:45px;">
@@ -151,6 +153,8 @@ class HiddentEntityLinks {
         } else {
           if (!game.user.isGM) {
             //setProperty(entityData, 'visible', true);
+            // TODO why i must do this ?????
+            // li.show();
           } else {
             // li.find('.hidden-entity-links').remove();
             if (
@@ -167,6 +171,7 @@ class HiddentEntityLinks {
             }
           }
         }
+        // ui.sidebar.render(true);
         break;
       }
     }
@@ -204,7 +209,9 @@ class HiddentEntityLinks {
           let isHidden = document.getFlag(HIDDEN_ENTITY_LINKS_MODULE_NAME, 'hidden');
           if (isHidden) {
             if (!game.user.isGM) {
-              setProperty(document, 'visible', false);
+              //setProperty(document, 'visible', false);
+              // TODO why i must do this ?????
+              // li.hide();
             } else {
               // let div = $(
               //   `<div class="hidden-entity-links" style="position:absolute;padding-left:45px;">
@@ -234,6 +241,8 @@ class HiddentEntityLinks {
           } else {
             if (!game.user.isGM) {
               //setProperty(document, 'visible', true);
+              // TODO why i must do this ?????
+              // li.show();
             } else {
               //
             }
@@ -288,6 +297,34 @@ class HiddentEntityLinks {
         return pos < 0 ? a : a.slice(pos + 5);
       });
   };
+
+  hideEntityLink = async function (entityID, entities) {
+    let entityData = entities.find((e) => {
+      return e && e.id == entityID;
+    });
+    if (entityData) {
+      let isHidden = entityData.getFlag(HIDDEN_ENTITY_LINKS_MODULE_NAME, 'hidden');
+      if (isHidden) {
+        // Do nothing
+      } else {
+        await entityData.setFlag(HIDDEN_ENTITY_LINKS_MODULE_NAME, 'hidden', true);
+      }
+    }
+  };
+
+  unhideEntityLink = async function (entityID, entities) {
+    let entityData = entities.find((e) => {
+      return e && e.id == entityID;
+    });
+    if (entityData) {
+      let isHidden = entityData.getFlag(HIDDEN_ENTITY_LINKS_MODULE_NAME, 'hidden');
+      if (isHidden) {
+        await entityData.setFlag(HIDDEN_ENTITY_LINKS_MODULE_NAME, 'hidden', false);
+      } else {
+        // Do nothing
+      }
+    }
+  }
 }
 
 // ==================
@@ -455,8 +492,8 @@ Hooks.once('setup', async function () {
     //   hiddentEntityLinksSocket.executeForEveryone('directoryRenderedHiddenEntityLinks', obj, html, data, entities);
     //   hiddentEntityLinksSocket.executeForEveryone('hideRenderedHiddenEntityLinks', obj, html, data);
     // } else {
-      game[HiddentEntityLinks.API].directoryRenderedHiddenEntityLinks(obj, html, data, entities);
-      game[HiddentEntityLinks.API].hideRenderedHiddenEntityLinks(obj, html, data);
+    game[HiddentEntityLinks.API].directoryRenderedHiddenEntityLinks(obj, html, data, entities);
+    game[HiddentEntityLinks.API].hideRenderedHiddenEntityLinks(obj, html, data);
     // }
   });
   Hooks.on('renderSceneDirectory', (obj, html, data) => {
