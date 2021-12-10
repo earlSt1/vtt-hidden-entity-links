@@ -64,15 +64,15 @@ This module uses the [socketLib](https://github.com/manuelVo/foundryvtt-socketli
 
 ## API
 
-`game.updateHiddenEntityLinks = async function (entityData, html, data)`
+`game.hiddentEntityLinks.updateHiddenEntityLinks = async function (entityData, html, data)`
 
-`game.directoryRenderedHiddenEntityLinks = async function (sidebarTabDirectory, html, data, entities)`
+`game.hiddentEntityLinks.directoryRenderedHiddenEntityLinks = async function (sidebarTabDirectory, html, data, entities)`
 
-`game.hideRenderedHiddenEntityLinks = function (sheet, html, data)`
+`game.hiddentEntityLinks.hideRenderedHiddenEntityLinks = function (sheet, html, data)`
 
-`game.hideEntityLink = async function (entityID, entities)`
+`game.hiddentEntityLinks.hideEntityLink = async function (entityID, entities)`
 
-`game.unhideEntityLink = async function (entityID, entities)`
+`game.hiddentEntityLinks.unhideEntityLink = async function (entityID, entities)`
 
 # Build
 
